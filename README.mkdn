@@ -1,0 +1,34 @@
+## Moonshine Goliath
+
+For deploying [goliath](http://postrank-labs.github.io/goliath/) with [moonshine](http://github.com/railsmachine/moonshine) and [god](http://godrb.com/).
+
+Add goliath_moonshine as a git submodule. 
+
+Next, add the recipe to the manifests in question:
+
+    # app/manifests/application_manifest.rb
+    recipe :god
+    recipe :goliath
+
+Add the `:goliath` and `:god` roles to any servers that run goliath:
+
+    # config/deploy/production.rb
+    server 'myapp.com', :web, :goliath, :god, :db, :primary => true
+
+### Managing Goliath with God
+
+This plugin also provides the following Capistrano tasks:
+
+    cap god:goliath:stop
+    cap god:goliath:start
+    cap god:goliath:restart
+    cap god:goliath:status
+
+We recommend having Goliath restart on deploy to reload code changes:
+
+    # config/deploy.rb
+    after 'god:restart', 'god:goliath:restart'
+
+### Deploying
+
+That's it. Deploy and done!
