@@ -6,7 +6,8 @@ God.watch do |w|
   w.gid      = '<%= configuration[:group] || configuration[:user] %>'
   w.env      = { 'RAILS_ENV' => RAILS_ENV, 'RACK_ENV' => RAILS_ENV, 'HOME' => '/home/<%= configuration[:user] %>' }
   w.dir      = RAILS_ROOT
-  w.pid_file = "#{RAILS_ROOT}/pids/#{w.name}.pid"
+  w.pid_file           = "#{RAILS_ROOT}/pids/#{w.name}.pid"
+  w.pid_file_directory = "#{RAILS_ROOT}/pids/"
   w.start    = "<%= 'bundle exec' if File.exist?(configuration[:deploy_to] + '/current/Gemfile') %> /usr/bin/ruby server.rb -e #{RAILS_ENV} -p <%= configuration[:goliath][:port] %> -l #{w.log}"
 
   w.stop = "kill -QUIT `cat #{w.pid_file}`"
